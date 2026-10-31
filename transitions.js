@@ -1,65 +1,37 @@
-/* PODER — transições leves entre telas e interações.
-   Não altera regras, salvamentos nem dados da carreira. */
+/* PODER — transições seguras entre telas.
+   Não altera Element.prototype nem adia a atualização do DOM.
+   Assim, o jogo pode continuar encontrando os botões logo após main.innerHTML. */
 (() => {
   "use strict";
 
-  if (window.__PODER_TRANSITIONS_INSTALLED__) return;
-  window.__PODER_TRANSITIONS_INSTALLED__ = true;
+  if (window.__PODER_SAFE_TRANSITIONS__) return;
+  window.__PODER_SAFE_TRANSITIONS__ = true;
 
   const main = document.querySelector(".main-content");
-  if (!main) return;
+  if (!main || typeof MutationObserver === "undefined") return;
 
-  const descriptor = Object.getOwnPropertyDescriptor(Element.prototype, "innerHTML");
-  if (!descriptor || typeof descriptor.set !== "function") return;
+  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
 
-  const nativeSet = descriptor.set;
-  let transitionPending = false;
-  let fallbackTimer = null;
+  let animationFrame = 0;
 
-  function fallbackScreenAnimation(element) {
-    element.dataset.poderTransitionFallback = "true";
-    if (fallbackTimer) window.clearTimeout(fallbackTimer);
-    fallbackTimer = window.setTimeout(() => {
-      delete element.dataset.poderTransitionFallback;
-      fallbackTimer = null;
-    }, 520);
-  }
+  const animateScreen = () => {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = requestAnimationFrame(() => {
+      main.classList.remove("poder-screen-enter");
+      // Força a reinicialização da animação sem atrasar ou substituir a troca do DOM.
+      void main.offsetWidth;
+      main.classList.add("poder-screen-enter");
+    });
+  };
 
-  // O jogo troca de tela usando main.innerHTML. Envolvemos apenas esse ponto
-  // para animar navegações sem interferir nos outros componentes da página.
-  Object.defineProperty(Element.prototype, "innerHTML", {
-    configurable: descriptor.configurable,
-    enumerable: descriptor.enumerable,
-    get: descriptor.get,
-    set(value) {
-      const isGameScreen = this instanceof HTMLElement && this.classList?.contains("main-content");
-      if (!isGameScreen) {
-        nativeSet.call(this, value);
-        return;
-      }
-
-      const startTransition = document.startViewTransition;
-      if (typeof startTransition !== "function" || transitionPending) {
-        nativeSet.call(this, value);
-        fallbackScreenAnimation(this);
-        return;
-      }
-
-      try {
-        transitionPending = true;
-        const transition = startTransition.call(document, () => nativeSet.call(this, value));
-        Promise.resolve(transition.finished)
-          .catch(() => {})
-          .finally(() => { transitionPending = false; });
-      } catch (error) {
-        transitionPending = false;
-        nativeSet.call(this, value);
-        fallbackScreenAnimation(this);
-        console.debug("PODER: usando transição alternativa.", error);
-      }
-    }
+  const observer = new MutationObserver(records => {
+    // Somente mudanças na raiz da tela inteira; atualizações de balões ou campos
+    // internos não devem reiniciar a animação da página.
+    const screenChanged = records.some(record => record.target === main &&
+      (record.addedNodes.length > 0 || record.removedNodes.length > 0));
+    if (screenChanged) animateScreen();
   });
 
-  // Também anima a tela que já estiver visível quando o módulo for carregado.
-  if (!document.startViewTransition) fallbackScreenAnimation(main);
+  observer.observe(main, { childList: true });
 })();

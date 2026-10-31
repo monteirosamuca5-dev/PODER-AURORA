@@ -1,52 +1,27 @@
-/* PODER — transições suaves. Compatível com o tema escuro e a estética pixel art. */
+/* PODER — transições leves e compatíveis com as telas existentes. */
 
-.main-content {
-  view-transition-name: poder-main-screen;
+.main-content.poder-screen-enter > :first-child {
+  animation: poder-safe-screen-in 260ms cubic-bezier(.2, .75, .25, 1) both;
 }
 
-/* Chrome/Edge recentes: transição real entre a tela antiga e a nova. */
-::view-transition-group(poder-main-screen) {
-  animation-duration: 360ms;
-  animation-timing-function: cubic-bezier(.2, .75, .25, 1);
+@keyframes poder-safe-screen-in {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-::view-transition-old(poder-main-screen) {
-  animation: poder-screen-out 170ms ease-in both;
-}
-
-::view-transition-new(poder-main-screen) {
-  animation: poder-screen-in 330ms cubic-bezier(.2, .75, .25, 1) both;
-}
-
-@keyframes poder-screen-in {
-  from { opacity: 0; transform: translateY(12px) scale(.995); filter: blur(2px); }
-  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-}
-
-@keyframes poder-screen-out {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-6px); }
-}
-
-/* Navegadores sem View Transitions: entrada suave como alternativa. */
-.main-content[data-poder-transition-fallback="true"] > :first-child {
-  animation: poder-screen-in 360ms cubic-bezier(.2, .75, .25, 1) both;
-}
-
-/* Resposta visual discreta para os controles. Não troca o layout nem as cores. */
 button:not(:disabled),
 a,
 input,
 select,
 textarea {
-  transition-property: transform, filter, box-shadow, border-color, background-color, color, outline-color;
-  transition-duration: 180ms;
-  transition-timing-function: ease-out;
+  transition: transform 140ms ease, filter 140ms ease,
+    border-color 160ms ease, background-color 160ms ease,
+    color 160ms ease, box-shadow 160ms ease;
 }
 
 button:not(:disabled):active {
   transform: translateY(1px) scale(.99);
-  filter: brightness(.96);
+  filter: brightness(.97);
 }
 
 button:focus-visible,
@@ -54,63 +29,15 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid rgba(217, 182, 108, .8);
+  outline: 2px solid rgba(217, 182, 108, .85);
   outline-offset: 3px;
 }
 
-/* Cartões de carreira, origens, opções de debate e elementos clicáveis. */
-.origin-card,
-.career-module-card,
-.career-action-button,
-.career-primary-button,
-.career-secondary-button,
-.career-small-button,
-.debate-option,
-.debate-choice,
-.region-card,
-.option-card {
-  transition: transform 190ms ease, box-shadow 190ms ease, border-color 190ms ease, background-color 190ms ease;
-}
-
-/* Entrada dos painéis e da arena, sem animações contínuas pesadas. */
-.debate-screen,
-.career-hub,
-.career-page,
-.creation-screen,
-.dashboard-screen,
-.event-screen,
-.regional-screen {
-  animation: poder-panel-enter 340ms cubic-bezier(.2, .75, .25, 1) both;
-}
-
-@keyframes poder-panel-enter {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Modal de configurações e janelas do jogo. */
-.modal:not(.hidden) .modal-content {
-  animation: poder-modal-enter 220ms cubic-bezier(.2, .8, .2, 1) both;
-}
-
-@keyframes poder-modal-enter {
-  from { opacity: 0; transform: translateY(8px) scale(.985); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* Respeita a configuração de acessibilidade do sistema operacional. */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
+  *, *::before, *::after {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
-  }
-  ::view-transition-group(poder-main-screen),
-  ::view-transition-old(poder-main-screen),
-  ::view-transition-new(poder-main-screen) {
-    animation: none !important;
+    scroll-behavior: auto !important;
   }
 }
