@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d18">
+
+    <title>PODER | República de Aurora</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <div class="game-container">
+
+        <!-- CABEÇALHO -->
+        <header class="topbar">
+
+            <div class="brand">
+                <div class="brand-symbol">P</div>
+
+                <div class="brand-text">
+                    <span class="brand-name">PODER</span>
+                    <span class="brand-subtitle">POLITICAL SIMULATOR</span>
+                </div>
+            </div>
+
+            <div class="topbar-info">
+                <span class="status-dot"></span>
+                <span>REPÚBLICA DE AURORA</span>
+            </div>
+
+        </header>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+
+            <section class="hero">
+
+                <div class="hero-text">
+
+                    <div class="eyebrow">
+                        <span></span>
+                        SUA HISTÓRIA COMEÇA AQUI
+                    </div>
+
+                    <h1>
+                        O PODER<br>
+                        ESTÁ EM <span>SUAS MÃOS.</span>
+                    </h1>
+
+                    <p class="description">
+                        Construa seu partido, conquiste a confiança
+                        da população e escreva seu nome na história
+                        da República de Aurora.
+                    </p>
+
+                    <div class="menu-buttons">
+
+                        <button id="new-game" class="btn-primary">
+                            <span>▶</span>
+                            NOVO JOGO
+                        </button>
+
+                        <button id="continue-game" class="btn-secondary" disabled>
+                            CONTINUAR
+                        </button>
+
+                        <button id="settings-game" class="btn-text">
+                            CONFIGURAÇÕES
+                        </button>
+
+                    </div>
+
+                    <div class="game-version">
+                        <span>VERSÃO 0.1</span>
+                        <span>•</span>
+                        <span>UM NOVO LEGADO COMEÇA</span>
+                    </div>
+
+                </div>
+
+                <!-- CENÁRIO DA CAPITAL -->
+                <div class="city-scene">
+
+                    <div class="sun"></div>
+
+                    <div class="city-label">
+                        <span>01 — CAPITAL NACIONAL</span>
+                        <strong>AURORA</strong>
+                    </div>
+
+                    <div class="city-skyline">
+                        <div class="building building-1"></div>
+                        <div class="building building-2"></div>
+                        <div class="building building-3"></div>
+                        <div class="building building-4"></div>
+                        <div class="building building-5"></div>
+                        <div class="building building-6"></div>
+                        <div class="building building-7"></div>
+                        <div class="building building-8"></div>
+                    </div>
+
+                    <div class="city-ground"></div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- RODAPÉ -->
+        <footer class="footer">
+
+            <span>© PODER — REPÚBLICA DE AURORA</span>
+
+            <span>UMA SIMULAÇÃO POLÍTICA</span>
+
+        </footer>
+
+    </div>
+
+    <!-- JANELA DE CONFIGURAÇÕES -->
+    <div id="settings-modal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <button id="close-settings" class="close-button">✕</button>
+
+            <h2>Configurações</h2>
+
+            <p>Configurações do jogo estarão disponíveis aqui.</p>
+
+            <span>Mais opções serão adicionadas durante o desenvolvimento.</span>
+
+        </div>
+
+    </div>
+
+    <noscript>
+        Este jogo precisa do JavaScript ativado para funcionar.
+    </noscript>
+
+</body>
+</html>
