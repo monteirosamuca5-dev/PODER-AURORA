@@ -81,3 +81,13 @@
   .debate-result { padding:20px 14px; }
 }
 @media (prefers-reduced-motion:reduce) { .debate-contestant.is-active .pixel-person { animation:none; } .debate-choice { transition:none; } }
+
+/* Ajustes da dinâmica intercalada: pergunta do jogador e resposta da oposição */
+.debate-progress span.current { background:rgba(217,182,108,.48); box-shadow:0 0 8px rgba(217,182,108,.22); }
+.debate-dialogue .debate-dialogue-hint { margin-top:10px; color:#aab8cb; font-size:12px; }
+.debate-feedback .debate-pressure-meter { margin-top:9px; color:#b8c5d6; font-size:11px; letter-spacing:.4px; }
+.debate-feedback .debate-pressure-meter b { color:#f4d995; }
+.debate-result-stats { grid-template-columns:repeat(4,minmax(0,1fr)); }
+@media (max-width:760px) {
+  .debate-result-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}

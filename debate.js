@@ -65,6 +65,37 @@
         }
     ];
 
+    // Depois de responder à oposição, o jogador também escolhe uma pergunta.
+    // A habilidade do candidato e a capacidade do adversário de se defender
+    // determinam se a resposta dele será convincente, parcial ou evasiva.
+    const playerQuestions = [
+        [
+            { title: "Qual é a fonte dos recursos para financiar seu plano de empregos?", detail: "Cobrar números, orçamento e prioridades.", style: "PERGUNTA TÉCNICA", skill: "politicalKnowledge", opponentSkill: "politicalKnowledge", base: 5, cornered: "Nossa equipe ainda está finalizando as projeções. Não vou inventar números antes de concluir os estudos.", partial: "Pretendemos rever despesas e estimular investimentos, mas os valores detalhados serão apresentados no plano econômico.", strong: "O financiamento virá de uma combinação de revisão de gastos, investimento privado e metas fiscais. O plano completo será divulgado com estimativas e prazos." },
+            { title: "Qual medida concreta o senhor adotaria nos primeiros cem dias?", detail: "Exigir prioridade e cronograma de execução.", style: "COBRANÇA DE PRAZO", skill: "leadership", opponentSkill: "leadership", base: 4, cornered: "Ainda não quero antecipar uma medida sem avaliar a situação encontrada.", partial: "Vamos começar por um pacote de incentivo à contratação e por uma revisão dos programas existentes.", strong: "Nos primeiros cem dias, enviaremos um programa de qualificação e incentivo à contratação, com metas trimestrais e avaliação pública." },
+            { title: "Como evitar que os incentivos às empresas virem benefícios para poucos grupos?", detail: "Questionar critérios, transparência e contrapartidas.", style: "FISCALIZAÇÃO", skill: "negotiation", opponentSkill: "negotiation", base: 4, cornered: "É uma preocupação legítima. Precisaremos construir critérios com os setores envolvidos.", partial: "Os incentivos terão regras e contrapartidas, mas os detalhes ainda serão discutidos.", strong: "Os benefícios terão prazo, metas de emprego, divulgação dos beneficiários e devolução dos recursos em caso de descumprimento." }
+        ],
+        [
+            { title: "Como reduzir as filas sem apresentar um orçamento irrealista?", detail: "Cobrar planejamento financeiro e metas de atendimento.", style: "PERGUNTA TÉCNICA", skill: "politicalKnowledge", opponentSkill: "politicalKnowledge", base: 5, cornered: "Precisamos primeiro mapear as filas e a capacidade de cada região antes de estimar o custo.", partial: "A prioridade será reorganizar o atendimento e contratar serviços onde houver maior urgência.", strong: "Vamos publicar o custo por etapa, priorizar regiões com maior espera e medir consultas realizadas e tempo médio de atendimento." },
+            { title: "O que o governo fará para levar especialistas ao interior?", detail: "Trazer o debate para a desigualdade regional.", style: "FOCO REGIONAL", skill: "leadership", opponentSkill: "leadership", base: 4, cornered: "Esse é um desafio complexo e dependerá de negociação com municípios e profissionais.", partial: "Podemos ampliar incentivos para fixação de profissionais em áreas menos atendidas.", strong: "A proposta inclui incentivos de permanência, telemedicina e consórcios regionais para garantir atendimento especializado." },
+            { title: "Como a população vai fiscalizar se as metas de saúde foram cumpridas?", detail: "Exigir transparência e prestação de contas.", style: "TRANSPARÊNCIA", skill: "negotiation", opponentSkill: "negotiation", base: 4, cornered: "Teremos de definir indicadores que sejam compreensíveis e comparáveis entre regiões.", partial: "Pretendemos divulgar relatórios periódicos, embora ainda falte definir o formato.", strong: "Os indicadores serão públicos, atualizados periodicamente e acompanhados por conselhos de saúde e órgãos de controle." }
+        ],
+        [
+            { title: "Quais indicadores provarão que a violência realmente diminuiu?", detail: "Cobrar dados além de discursos e operações pontuais.", style: "DADOS E RESULTADOS", skill: "politicalKnowledge", opponentSkill: "politicalKnowledge", base: 5, cornered: "A segurança não pode ser medida por um único indicador. Vamos precisar consolidar dados.", partial: "Acompanharemos ocorrências e crimes violentos, mas também a percepção de segurança.", strong: "Vamos divulgar séries de crimes violentos, elucidação de homicídios e tempo de resposta, separados por região." },
+            { title: "Como impedir abusos e garantir que a política respeite a lei?", detail: "Pressionar por controle e responsabilidade institucional.", style: "DIREITOS E CONTROLE", skill: "negotiation", opponentSkill: "negotiation", base: 4, cornered: "A fiscalização precisa ser independente, mas ainda precisamos definir o modelo de acompanhamento.", partial: "Defendemos treinamento e protocolos, com investigação de denúncias quando necessário.", strong: "A política terá protocolos públicos, câmeras quando adequadas, corregedorias atuantes e investigação independente de abusos." },
+            { title: "Que prevenção será oferecida aos jovens antes que a violência aconteça?", detail: "Cobrar ações de longo prazo e presença do Estado.", style: "PREVENÇÃO", skill: "leadership", opponentSkill: "leadership", base: 4, cornered: "Esse eixo precisa de coordenação com escolas, municípios e organizações locais.", partial: "Pretendemos ampliar atividades esportivas e oportunidades de formação profissional.", strong: "Vamos integrar escola em tempo ampliado, formação profissional, esporte e acompanhamento de jovens em áreas prioritárias." }
+        ],
+        [
+            { title: "Como o senhor vai medir se os alunos estão aprendendo mais?", detail: "Exigir metas de aprendizagem verificáveis.", style: "AVALIAÇÃO", skill: "politicalKnowledge", opponentSkill: "politicalKnowledge", base: 5, cornered: "Os indicadores precisam considerar as diferenças entre escolas, e ainda estamos definindo as metas.", partial: "Vamos utilizar avaliações periódicas e acompanhar a evolução dos alunos.", strong: "As metas serão públicas, com avaliações periódicas, apoio às escolas com maior dificuldade e divulgação dos resultados por região." },
+            { title: "Como garantir que escolas rurais não fiquem para trás?", detail: "Questionar a execução fora dos grandes centros.", style: "EQUIDADE REGIONAL", skill: "leadership", opponentSkill: "leadership", base: 4, cornered: "A logística do interior exige um plano específico que ainda precisa ser detalhado.", partial: "Vamos priorizar transporte escolar e conectividade nas localidades mais isoladas.", strong: "Haverá um mapa de carências, metas de transporte e conectividade e equipes de apoio pedagógico para escolas rurais." },
+            { title: "Quanto será investido na formação e valorização dos professores?", detail: "Cobrar compromisso com quem executa a política educacional.", style: "VALORIZAÇÃO", skill: "negotiation", opponentSkill: "negotiation", base: 4, cornered: "Não vou anunciar um valor antes de negociar com os profissionais e avaliar o orçamento.", partial: "A formação continuada será prioridade, dentro do espaço fiscal disponível.", strong: "O plano terá calendário de formação, critérios de progressão e previsão orçamentária negociada com os profissionais." }
+        ],
+        [
+            { title: "Quem vai fiscalizar os contratos e garantir auditorias independentes?", detail: "Cobrar controles que não dependam do próprio governante.", style: "INDEPENDÊNCIA", skill: "politicalKnowledge", opponentSkill: "politicalKnowledge", base: 5, cornered: "Precisamos definir garantias para que a fiscalização não seja apenas formal.", partial: "Os órgãos de controle terão acesso aos dados e poderão solicitar auditorias.", strong: "Auditorias independentes, dados abertos e autonomia dos órgãos de controle serão previstos desde o início." },
+            { title: "O senhor publicaria os beneficiários finais das empresas contratadas?", detail: "Ir além do nome da empresa e revelar quem se beneficia.", style: "TRANSPARÊNCIA", skill: "negotiation", opponentSkill: "negotiation", base: 4, cornered: "A proposta é válida, mas teremos de observar a legislação e a proteção de dados.", partial: "Defendemos transparência dos contratos e identificação dos responsáveis, respeitando a lei.", strong: "Sim. Sempre que a legislação permitir, os dados dos beneficiários finais serão publicados para impedir empresas de fachada." },
+            { title: "O senhor investigaria um aliado político se surgissem provas?", detail: "Testar coerência entre discurso e prática.", style: "INTEGRIDADE", skill: "charisma", opponentSkill: "charisma", base: 4, cornered: "Não vou julgar ninguém antecipadamente, mas nenhuma pessoa deve estar acima da lei.", partial: "As denúncias devem ser apuradas pelos órgãos competentes, sem interferência do governo.", strong: "Sim. A investigação deve seguir provas e procedimentos legais, independentemente de partido ou proximidade política." }
+        ]
+    ];
+
     let debate = null;
 
     function readSave() {
@@ -135,21 +166,41 @@
             alert("Crie seu personagem e funde seu partido antes de participar de um debate.");
             return;
         }
-        debate = { roundIndex: 0, totalScore: 0, scores: [], phase: "question", lastAnswer: null };
+        debate = {
+            roundIndex: 0,
+            totalScore: 0,
+            answerScores: [],
+            questionScores: [],
+            phase: "opponentQuestion",
+            lastAnswer: null,
+            lastQuestion: null
+        };
         renderRound();
     }
 
-    function renderShell({ roundIndex, speaker, dialogue, phase, playerName, partyName }) {
-        const progress = rounds.map((_, index) => `<span class="${index < roundIndex + (phase === "reply" ? 1 : 0) ? "done" : ""}"></span>`).join("");
+    function renderShell({ roundIndex, speaker, dialogue, phase, playerName, partyName, showChoices = false, feedbackHTML = "", buttonId = "", buttonLabel = "" }) {
+        const progress = rounds.map((_, index) => {
+            const done = index < roundIndex || (index === roundIndex && phase === "opponentAnswer");
+            return `<span class="${done ? "done" : index === roundIndex ? "current" : ""}"></span>`;
+        }).join("");
         const isPlayerSpeaking = speaker === "player";
         const current = rounds[Math.min(roundIndex, rounds.length - 1)];
+        const phaseTitle = phase === "opponentQuestion" ? "PERGUNTA DA OPOSIÇÃO"
+            : phase === "opponentReply" ? "RÉPLICA DA OPOSIÇÃO"
+            : phase === "playerQuestion" ? "SUA PERGUNTA"
+            : "RESPOSTA DO ADVERSÁRIO";
+        const choiceTitle = phase === "opponentQuestion" ? "ESCOLHA SUA RESPOSTA"
+            : phase === "playerQuestion" ? "ESCOLHA O QUE VAI PERGUNTAR"
+            : phase === "opponentReply" ? "AGORA É SUA VEZ DE QUESTIONAR"
+            : "ANÁLISE DA TROCA";
+
         main.innerHTML = `
             <section class="debate-screen">
                 <header class="debate-head">
                     <div>
                         <span class="debate-kicker">REPÚBLICA DE AURORA · TRANSMISSÃO NACIONAL</span>
                         <h1>ARENA DE <span>DEBATE.</span></h1>
-                        <p class="debate-subtitle">Um confronto de propostas, argumentos e estratégia. Cada resposta pode fortalecer sua imagem ou abrir espaço para o adversário.</p>
+                        <p class="debate-subtitle">As falas se alternam: a oposição pergunta, você responde, depois você questiona e o adversário precisa se explicar.</p>
                     </div>
                     <button id="debate-exit" class="btn-secondary debate-exit">← VOLTAR AO GABINETE</button>
                 </header>
@@ -174,13 +225,37 @@
                     <div class="debate-audience" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
                 </div>
                 <div class="debate-dialogue">
-                    <span class="debate-speaker">${escapeHTML(speaker === "player" ? playerName : opponent.name)} · ${phase === "question" ? "PERGUNTA" : "RÉPLICA"}</span>
+                    <span class="debate-speaker">${escapeHTML(speaker === "player" ? playerName : opponent.name)} · ${phaseTitle}</span>
                     ${dialogue}
                 </div>
-                <div class="debate-choice-heading"><h2>${phase === "question" ? "ESCOLHA SUA RESPOSTA" : "ANÁLISE DA RODADA"}</h2><span>RODADA ${Math.min(roundIndex + 1, rounds.length)} DE ${rounds.length} · ${current.theme}</span></div>
-                ${phase === "question" ? `<div id="debate-options" class="debate-choices"></div>` : `<div id="debate-feedback" class="debate-feedback"></div><div class="debate-next-row"><span class="debate-score">DESEMPENHO ACUMULADO: <b>${debate.totalScore} PONTOS</b></span><button id="debate-next" class="btn-primary">${roundIndex + 1 >= rounds.length ? "VER RESULTADO →" : "PRÓXIMA RODADA →"}</button></div>`}
+                <div class="debate-choice-heading"><h2>${choiceTitle}</h2><span>RODADA ${Math.min(roundIndex + 1, rounds.length)} DE ${rounds.length} · ${current.theme}</span></div>
+                ${showChoices ? `<div id="debate-options" class="debate-choices"></div>` : `
+                    <div class="debate-feedback">${feedbackHTML}</div>
+                    <div class="debate-next-row">
+                        <span class="debate-score">PONTUAÇÃO: <b>${debate.totalScore} PONTOS</b></span>
+                        <button id="${buttonId}" class="btn-primary">${buttonLabel}</button>
+                    </div>`}
             </section>`;
         document.querySelector("#debate-exit")?.addEventListener("click", returnToDashboard);
+    }
+
+    function renderChoiceButtons(options, type) {
+        const container = document.querySelector("#debate-options");
+        if (!container) return;
+        container.innerHTML = options.map((option, index) => `
+            <button class="debate-choice" data-choice="${index}">
+                <span class="choice-top">${type === "answer" ? "RESPOSTA" : "PERGUNTA"} ${String.fromCharCode(65 + index)} · ${escapeHTML(option.style)}</span>
+                <strong>${escapeHTML(option.title)}</strong>
+                <small>${escapeHTML(option.detail)}</small>
+                <span class="choice-skill">HABILIDADE: ${escapeHTML(option.skill === "politicalKnowledge" ? "CONHECIMENTO POLÍTICO" : option.skill === "leadership" ? "LIDERANÇA" : option.skill === "negotiation" ? "NEGOCIAÇÃO" : "CARISMA")}</span>
+            </button>`).join("");
+        container.querySelectorAll("[data-choice]").forEach(button => {
+            button.addEventListener("click", () => {
+                const index = Number(button.dataset.choice);
+                if (type === "answer") chooseAnswer(index);
+                else choosePlayerQuestion(index);
+            });
+        });
     }
 
     function renderRound() {
@@ -188,63 +263,120 @@
         if (!save?.character || !save?.party) return;
         const round = rounds[debate.roundIndex];
         if (!round) return finishDebate();
+        debate.phase = "opponentQuestion";
         renderShell({
             roundIndex: debate.roundIndex,
             speaker: "opponent",
-            phase: "question",
+            phase: "opponentQuestion",
             playerName: getPlayerName(save),
             partyName: escapeHTML(save.party.acronym || save.party.name || "PARTIDO"),
+            showChoices: true,
             dialogue: `<p>“${escapeHTML(round.question)}”</p>`
         });
-        const container = document.querySelector("#debate-options");
-        if (!container) return;
-        container.innerHTML = round.options.map((option, index) => `
-            <button class="debate-choice" data-answer="${index}">
-                <span class="choice-top">RESPOSTA ${String.fromCharCode(65 + index)} · ${escapeHTML(option.style)}</span>
-                <strong>${escapeHTML(option.title)}</strong>
-                <small>${escapeHTML(option.detail)}</small>
-                <span class="choice-skill">HABILIDADE: ${escapeHTML(option.skill === "politicalKnowledge" ? "CONHECIMENTO POLÍTICO" : option.skill === "leadership" ? "LIDERANÇA" : option.skill === "negotiation" ? "NEGOCIAÇÃO" : "CARISMA")}</span>
-            </button>`).join("");
-        container.querySelectorAll("[data-answer]").forEach(button => {
-            button.addEventListener("click", () => chooseAnswer(Number(button.dataset.answer)));
-        });
+        renderChoiceButtons(round.options, "answer");
     }
 
     function chooseAnswer(index) {
         const save = readSave();
         const round = rounds[debate.roundIndex];
         const option = round?.options[index];
-        if (!save || !option || debate.phase === "reply") return;
+        if (!save || !option || debate.phase !== "opponentQuestion") return;
 
         const skill = getStat(save, option.skill);
         const modifier = Math.round((skill - 50) / 20);
         const score = option.base + modifier;
         debate.totalScore += score;
-        debate.scores.push(score);
-        debate.phase = "reply";
+        debate.answerScores.push(score);
         debate.lastAnswer = option;
+        debate.phase = "opponentReply";
 
         let reply;
         if (score >= 6) reply = option.good;
         else if (score >= 2) reply = option.mid;
         else reply = option.bad;
 
+        const label = score >= 6 ? "RESPOSTA FORTE" : score >= 2 ? "RESPOSTA RAZOÁVEL" : "RESPOSTA QUESTIONADA";
+        const feedbackHTML = `<strong>${label} · ${score > 0 ? "+" : ""}${score} PONTOS</strong><p>${score >= 6 ? "Sua habilidade ajudou a sustentar o argumento. Agora você terá a oportunidade de colocar o adversário na defensiva." : score >= 2 ? "Você respondeu ao tema, mas ainda deixou pontos que podem ser explorados. Agora é sua vez de perguntar." : "A resposta abriu espaço para críticas. Tente recuperar terreno com uma pergunta precisa."}</p>`;
         renderShell({
             roundIndex: debate.roundIndex,
             speaker: "opponent",
-            phase: "reply",
+            phase: "opponentReply",
             playerName: getPlayerName(save),
             partyName: escapeHTML(save.party.acronym || save.party.name || "PARTIDO"),
-            dialogue: `<p class="debate-response-quote">SUA RESPOSTA: “${escapeHTML(option.title)}”</p><p>“${escapeHTML(reply)}”</p>`
+            dialogue: `<p class="debate-response-quote">SUA RESPOSTA: “${escapeHTML(option.title)}”</p><p>“${escapeHTML(reply)}”</p>`,
+            feedbackHTML,
+            buttonId: "debate-ask-turn",
+            buttonLabel: "AGORA, FAÇA UMA PERGUNTA →"
         });
-        const feedback = document.querySelector("#debate-feedback");
-        if (feedback) {
-            const label = score >= 6 ? "RESPOSTA FORTE" : score >= 2 ? "RESPOSTA RAZOÁVEL" : "RESPOSTA QUESTIONADA";
-            feedback.innerHTML = `<strong>${label} · ${score > 0 ? "+" : ""}${score} PONTOS NESTA RODADA</strong><p>${score >= 6 ? "Sua habilidade ajudou a sustentar o argumento. O adversário teve dificuldade para desmontar a resposta." : score >= 2 ? "Você respondeu ao tema, mas ainda deixou pontos que podem ser explorados pela oposição." : "A resposta abriu espaço para críticas. Nas próximas rodadas, tente apresentar argumentos mais concretos."}</p>`;
+        document.querySelector("#debate-ask-turn")?.addEventListener("click", renderPlayerQuestion);
+    }
+
+    function renderPlayerQuestion() {
+        const save = readSave();
+        if (!save?.character || !save?.party) return;
+        const round = rounds[debate.roundIndex];
+        const questions = playerQuestions[debate.roundIndex] || [];
+        debate.phase = "playerQuestion";
+        renderShell({
+            roundIndex: debate.roundIndex,
+            speaker: "player",
+            phase: "playerQuestion",
+            playerName: getPlayerName(save),
+            partyName: escapeHTML(save.party.acronym || save.party.name || "PARTIDO"),
+            showChoices: true,
+            dialogue: `<p>“Minha resposta foi essa. Agora quero que o senhor explique melhor sua posição sobre <b>${escapeHTML(round.theme.toLowerCase())}</b>.”</p><p class="debate-dialogue-hint">Você tem a palavra. Escolha uma pergunta para pressionar o candidato adversário.</p>`
+        });
+        renderChoiceButtons(questions, "question");
+    }
+
+    function choosePlayerQuestion(index) {
+        const save = readSave();
+        const question = playerQuestions[debate.roundIndex]?.[index];
+        if (!save || !question || debate.phase !== "playerQuestion") return;
+
+        const playerSkill = getStat(save, question.skill);
+        const playerQuestionScore = question.base + Math.round((playerSkill - 50) / 20);
+        const opponentSkill = Number(opponent[question.opponentSkill] ?? 60);
+        const opponentDefense = 3 + Math.round((opponentSkill - 50) / 10);
+        const margin = playerQuestionScore - opponentDefense;
+        const pressureScore = clamp(3 + margin, 0, 6);
+        const pressurePoints = pressureScore - 3;
+        debate.totalScore += pressurePoints;
+        debate.questionScores.push(pressureScore);
+        debate.lastQuestion = question;
+        debate.phase = "opponentAnswer";
+
+        let reply;
+        let label;
+        let explanation;
+        if (margin >= 2) {
+            reply = question.cornered;
+            label = "OPONENTE PRESSIONADO";
+            explanation = "Sua pergunta foi específica e difícil de contornar. O adversário não conseguiu apresentar uma resposta completa.";
+        } else if (margin >= 0) {
+            reply = question.partial;
+            label = "RESPOSTA PARCIAL";
+            explanation = "Você levantou um ponto relevante, mas o adversário conseguiu responder em parte. Há espaço para uma nova cobrança.";
+        } else {
+            reply = question.strong;
+            label = "ADVERSÁRIO SE DEFENDEU";
+            explanation = "O adversário tinha preparo para esse tema e conseguiu sustentar a resposta. Uma pergunta mais precisa poderia pressioná-lo.";
         }
+
+        const feedbackHTML = `<strong>${label} · ${pressurePoints > 0 ? "+" : ""}${pressurePoints} PONTOS DE PRESSÃO</strong><p>${explanation}</p><p class="debate-pressure-meter">PRESSÃO GERADA: <b>${pressureScore}/6</b></p>`;
+        renderShell({
+            roundIndex: debate.roundIndex,
+            speaker: "opponent",
+            phase: "opponentAnswer",
+            playerName: getPlayerName(save),
+            partyName: escapeHTML(save.party.acronym || save.party.name || "PARTIDO"),
+            dialogue: `<p class="debate-response-quote">SUA PERGUNTA: “${escapeHTML(question.title)}”</p><p>“${escapeHTML(reply)}”</p>`,
+            feedbackHTML,
+            buttonId: "debate-next",
+            buttonLabel: debate.roundIndex + 1 >= rounds.length ? "VER RESULTADO →" : "PRÓXIMO TEMA →"
+        });
         document.querySelector("#debate-next")?.addEventListener("click", () => {
             debate.roundIndex++;
-            debate.phase = "question";
             if (debate.roundIndex >= rounds.length) finishDebate();
             else renderRound();
         });
@@ -254,17 +386,19 @@
         const save = readSave();
         if (!save?.character) return returnToDashboard();
         const average = debate.totalScore / rounds.length;
-        const approvalDelta = average >= 5 ? 4 : average >= 3 ? 2 : average >= 1 ? 1 : average <= -1 ? -3 : 0;
-        const reputationDelta = average >= 5 ? 5 : average >= 3 ? 3 : average >= 1 ? 1 : average <= -1 ? -3 : 0;
+        const strongQuestions = debate.questionScores.filter(score => score >= 5).length;
+        const approvalDelta = average >= 6 ? 4 : average >= 4 ? 2 : average >= 2 ? 1 : average < 0 ? -3 : 0;
+        const reputationDelta = average >= 6 ? 5 : average >= 4 ? 3 : average >= 2 ? 1 : average < 0 ? -3 : 0;
         save.approval = clamp((save.approval ?? 50) + approvalDelta);
         save.reputation = clamp((save.reputation ?? 50) + reputationDelta);
         if (!Array.isArray(save.debateHistory)) save.debateHistory = [];
-        const resultLabel = average >= 5 ? "DEBATE DOMINADO" : average >= 3 ? "BOA ATUAÇÃO" : average >= 1 ? "DESEMPENHO EQUILIBRADO" : "DEBATE DIFÍCIL";
+        const resultLabel = average >= 6 ? "DEBATE DOMINADO" : average >= 4 ? "BOA ATUAÇÃO" : average >= 2 ? "DESEMPENHO EQUILIBRADO" : average < 0 ? "DEBATE DIFÍCIL" : "ATUAÇÃO DISCRETA";
         save.debateHistory.unshift({
             month: save.currentMonth || 1,
             year: save.currentYear || 2026,
             opponent: opponent.name,
             score: debate.totalScore,
+            strongQuestions,
             result: resultLabel,
             approvalDelta,
             reputationDelta
@@ -272,16 +406,16 @@
         save.debateHistory = save.debateHistory.slice(0, 12);
         writeSave(save);
 
-        const averageText = average.toFixed(1).replace(".", ",");
         main.innerHTML = `
             <section class="debate-screen">
                 <header class="debate-head"><div><span class="debate-kicker">REPÚBLICA DE AURORA · ENCERRAMENTO</span><h1>RESULTADO DO <span>DEBATE.</span></h1><p class="debate-subtitle">A imprensa e os eleitores começam a avaliar seu desempenho.</p></div></header>
                 <div class="debate-result">
                     <div class="result-mark">★</div>
                     <h2>${resultLabel}</h2>
-                    <p>Você concluiu cinco rodadas contra ${opponent.name}. Suas respostas foram avaliadas de acordo com a estratégia escolhida e as habilidades do seu personagem.</p>
+                    <p>Você participou de cinco temas, alternando perguntas e respostas com ${opponent.name}. O resultado considera tanto a qualidade das suas respostas quanto a pressão que suas perguntas conseguiram exercer.</p>
                     <div class="debate-result-stats">
                         <div class="debate-result-stat"><span>PONTUAÇÃO</span><strong>${debate.totalScore}</strong></div>
+                        <div class="debate-result-stat"><span>PERGUNTAS FORTES</span><strong>${strongQuestions}/5</strong></div>
                         <div class="debate-result-stat"><span>POPULARIDADE</span><strong>${approvalDelta > 0 ? "+" : ""}${approvalDelta}</strong></div>
                         <div class="debate-result-stat"><span>REPUTAÇÃO</span><strong>${reputationDelta > 0 ? "+" : ""}${reputationDelta}</strong></div>
                     </div>
