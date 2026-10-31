@@ -1,5 +1,5 @@
 /* ============================================================
-   PODER — EXPANSÃO DE CARREIRA 0.4.2
+   PODER — EXPANSÃO DE CARREIRA 0.4.3
    Calendário diário, economia, orçamento, Congresso, gabinete,
    eleições, imprensa, crises, regiões e diplomacia.
    Módulo independente: preserva o salvamento poder_save.
@@ -332,13 +332,9 @@
     const actions=main.querySelector(".dashboard-actions");
     if(!dashboard || !actions || main.querySelector(".career-hub")) return;
 
-    const oldMap=$("#open-region-map",actions);
-    if(oldMap && oldMap.dataset.careerManaged!=="1") {
-      const mapButton=oldMap.cloneNode(true);
-      mapButton.id="open-region-map";mapButton.dataset.careerManaged="1";
-      oldMap.replaceWith(mapButton);
-      mapButton.addEventListener("click",()=>homePath("regions"));
-    }
+    // Preserve o listener original de script.js no botão MAPA DE AURORA.
+    // Interceptar esse clique e recarregar a página fazia startup() clicar
+    // no mesmo botão novamente, criando um ciclo entre o menu e o Gabinete.
     const oldNext=$("#next-month",actions);
     if(oldNext && oldNext.dataset.careerManaged!=="1") {
       const next=oldNext.cloneNode(true);
