@@ -1,5 +1,5 @@
 /* ============================================================
-   PODER — EXPANSÃO DE CARREIRA 0.4
+   PODER — EXPANSÃO DE CARREIRA 0.4.1
    Calendário diário, economia, orçamento, Congresso, gabinete,
    eleições, imprensa, crises, regiões e diplomacia.
    Módulo independente: preserva o salvamento poder_save.
@@ -415,6 +415,9 @@
       ${due.length?`<div class="career-section-title"><h2>COMPROMISSOS QUE CHEGARAM</h2><span>Você ainda pode atendê-los.</span></div>${due.slice(0,5).map(a=>agendaCard(a)).join("")}`:`<div class="career-empty">Nenhum compromisso ficou pendente neste período. Seu gabinete segue organizado.</div>`}
       <div class="career-inline-actions"><button class="career-primary-button" data-open="calendar">ABRIR CALENDÁRIO</button><button class="career-secondary-button" data-open="home">VOLTAR AO GABINETE</button></div>`);
     bindPageNavigation();
+    // A tela de resumo também exibe compromissos com status pendente.
+    // Sem este listener, o botão ATENDER anima visualmente, mas não executa a ação.
+    $$('[data-attend]',main).forEach(btn=>btn.addEventListener("click",()=>attendAgenda(btn.dataset.attend)));
   }
 
   function monthlyTick(save) {
