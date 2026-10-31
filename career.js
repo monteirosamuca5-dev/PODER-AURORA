@@ -1,5 +1,5 @@
 /* ============================================================
-   PODER — EXPANSÃO DE CARREIRA 0.4.1
+   PODER — EXPANSÃO DE CARREIRA 0.4.2
    Calendário diário, economia, orçamento, Congresso, gabinete,
    eleições, imprensa, crises, regiões e diplomacia.
    Módulo independente: preserva o salvamento poder_save.
@@ -413,11 +413,60 @@
       <div class="career-summary-grid">${statCard("DATA ANTERIOR",dateShort(start),"Início da simulação")}${statCard("DATA ATUAL",dateShort(end),"Calendário atualizado")}${statCard("RELATÓRIOS MENSAIS",reports,"Meses processados")}${statCard("COMPROMISSOS PENDENTES",due.length,"Itens aguardando sua decisão",due.length?"red":"gold")}</div>
       ${election?`<div class="career-alert"><strong>RESULTADO ELEITORAL</strong><p>${esc(election.resultText)}</p><button class="career-primary-button" data-open="elections">VER ELEIÇÃO</button></div>`:""}
       ${due.length?`<div class="career-section-title"><h2>COMPROMISSOS QUE CHEGARAM</h2><span>Você ainda pode atendê-los.</span></div>${due.slice(0,5).map(a=>agendaCard(a)).join("")}`:`<div class="career-empty">Nenhum compromisso ficou pendente neste período. Seu gabinete segue organizado.</div>`}
-      <div class="career-inline-actions"><button class="career-primary-button" data-open="calendar">ABRIR CALENDÁRIO</button><button class="career-secondary-button" data-open="home">VOLTAR AO GABINETE</button></div>`);
+      <div class="career-inline-actions career-summary-actions">
+        <button class="career-primary-button" id="career-summary-next-day">AVANÇAR +1 DIA →</button>
+        <button class="career-secondary-button" id="career-summary-next-commitment">⏩ PRÓXIMO COMPROMISSO</button>
+        <button class="career-secondary-button" data-open="calendar">ABRIR CALENDÁRIO</button>
+        <button class="career-secondary-button" data-open="home">VOLTAR AO GABINETE</button>
+      </div>`);
     bindPageNavigation();
     // A tela de resumo também exibe compromissos com status pendente.
     // Sem este listener, o botão ATENDER anima visualmente, mas não executa a ação.
     $$('[data-attend]',main).forEach(btn=>btn.addEventListener("click",()=>attendAgenda(btn.dataset.attend)));
+    // Atalhos de calendário disponíveis sem precisar retornar ao Gabinete.
+    $("#career-summary-next-day",main)?.addEventListener("click",()=>advance(1));
+    $("#career-summary-next-commitment",main)?.addEventListener("click",advanceToNextCommitment);
+  }
+
+  function advanceToNextCommitment() {
+    const save=getSave();
+    if(!save?.character || !save?.party) return;
+    const c=ensure(save);
+
+    // Primeiro atende o compromisso que já chegou, evitando pular algo pendente.
+    const pending=c.agenda
+      .filter(item=>item.status==="pending" || (item.status==="scheduled" && item.date<=c.date))
+      .sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+    if(pending.length) {
+      const item=pending[0];
+      if(item.status!=="pending") { item.status="pending"; writeSave(save); }
+      attendAgenda(item.id);
+      return;
+    }
+
+    // Sem pendências, localiza o compromisso futuro mais próximo.
+    const next=c.agenda
+      .filter(item=>item.status==="scheduled" && item.date>c.date)
+      .sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0];
+    if(!next) {
+      alert("Não há compromissos futuros na agenda. Cadastre um compromisso no Calendário para usar este atalho.");
+      return;
+    }
+
+    const days=daysBetween(c.date,next.date);
+    if(days<1) {
+      alert("Não foi possível localizar uma data futura para esse compromisso.");
+      return;
+    }
+
+    // advance() simula cada dia, incluindo fechamento mensal, notícias,
+    // eleições e a conversão do compromisso agendado em pendente.
+    advance(days);
+
+    // Abre diretamente o compromisso que motivou o avanço.
+    const updated=getSave();
+    const arrived=updated?.career?.agenda?.find(item=>item.id===next.id);
+    if(arrived?.status==="pending") attendAgenda(arrived.id);
   }
 
   function monthlyTick(save) {
